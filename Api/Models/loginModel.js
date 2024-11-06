@@ -1,4 +1,4 @@
-const db = require('../db-config');
+const db = require('../DB-Config');
 
 module.exports = {
   findByEmail: (email) => 

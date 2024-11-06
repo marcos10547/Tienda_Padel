@@ -5,7 +5,7 @@ module.exports = {
   create: async (nombre, email, contraseña) => {
     const hashedPassword = await bcrypt.hash(contraseña, 10);
     return db.query(
-      'INSERT INTO usuarios (nombre, email, contraseña) VALUES ($1, $2, $3) RETURNING id, nombre, email',
+      'INSERT INTO usuarios (nombre, email, contraseña) VALUES ($1, $2, $3) RETURNING id_usuario, nombre, email',
       [nombre, email, hashedPassword]
     );
   },
