@@ -1,7 +1,7 @@
 const Register = require('../Models/registerModel');
 
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { nombre, email, contraseña , rol } = req.body;
 
   try {
     const userExists = await Register.findByEmail(email);
@@ -9,7 +9,7 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: 'El usuario ya existe' });
     }
 
-    const result = await Register.create(name, email, password);
+    const result = await Register.create(nombre, email, contraseña, rol);
     const user = result.rows[0];
 
     res.status(201).json({ user });

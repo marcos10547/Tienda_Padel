@@ -2,7 +2,7 @@ const Login = require('../Models/loginModel');
 const bcrypt = require('bcrypt');
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, contraseña } = req.body;
 
   try {
     const result = await Login.findByEmail(email);
@@ -11,13 +11,14 @@ exports.login = async (req, res) => {
     }
 
     const user = result.rows[0];
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(contraseña, user.contraseña);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
-    res.json({ user: { id: user.id, name: user.name, email: user.email } });
+    //res.json({ user: { id_usuario: user.id_usuario, nombre: user.nombre, email: user.email } });
+    res.json({ success: true, message: "Inicio de sesión exitoso"});
   } catch (err) {
     res.status(500).json({ message: 'Error en el inicio de sesión', error: err.message });
   }
