@@ -1,24 +1,24 @@
-const { Pool } = require("pg");
-const dotenv = require('dotenv');
-
-dotenv.config();
+const { Pool } = require('pg');
 
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+    user: 'postgres',
+    host: 'postgres.cxiqqcgyorty.us-east-1.rds.amazonaws.com',
+    database: 'postgres',
+    password: 'Payopayo10',
+    port: 5432,
     ssl: {
-        rejectUnauthorized: false,
-    },
+        rejectUnauthorized: false 
+    }
 });
 
-pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err);
-    process.exit(-1);
+// Probar la conexión
+pool.connect((err, client, release) => {
+    if (err) {
+        console.error('Error al conectar a la base de datos', err.stack);
+    } else {
+        console.log('Conexión exitosa a la base de datos en el puerto 5432');
+    }
+    release();
 });
 
-module.exports = {
-    query: (text, params) => pool.query(text, params),
-};
+module.exports = pool;

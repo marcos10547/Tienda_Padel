@@ -12,9 +12,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Importar rutas
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./Routes/userRoutes');
 const loginRoutes = require('./routes/loginRoutes');
-const registerRoutes = require('./routes/registerRoutes');
+const registerRoutes = require('./Routes/registerRoutes');
 
 // Usar rutas
 app.use('/api/users', userRoutes);
@@ -38,4 +38,7 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
-module.exports = app;
+module.exports = app
+
+//ENDPOINTS
+//http://localhost:3000/api/register
