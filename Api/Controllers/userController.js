@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const User = require('../Models/userModel');
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -11,7 +11,8 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const result = await User.findById(req.params.id);
+    const result = await User.findById(req.params.id_usuario
+    );
     if (result.rows.length > 0) {
       res.json(result.rows[0]);
     } else {
@@ -23,9 +24,9 @@ exports.getUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const { name, email } = req.body;
+  const { nombre, email } = req.body;
   try {
-    const result = await User.update(req.params.id, name, email);
+    const result = await User.update(req.params.id_usuario, nombre, email);
     if (result.rows.length > 0) {
       res.json(result.rows[0]);
     } else {
@@ -38,7 +39,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const result = await User.delete(req.params.id);
+    const result = await User.delete(req.params.id_usuario);
     if (result.rowCount > 0) {
       res.json({ message: 'Usuario eliminado' });
     } else {
