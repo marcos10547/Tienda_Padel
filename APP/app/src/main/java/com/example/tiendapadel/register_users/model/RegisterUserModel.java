@@ -13,13 +13,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterUserModel implements Register_Contract.model {
-    private static final String base_url = "http://192.168.104.77:3000/";
+    private static final String base_url = "http://172.29.80.1:3000/";
 
     @Override
     public void registerUserAPI(Usuario user, OnRegisterUserListener onRegisterUserListener) {
         ApiService apiService = RetrofitClient.getClient(base_url).create(ApiService.class);
 
         Log.d("RegisterUserModel", "Attempting register with email: " + user.getEmail());
+        Log.d("RegisterUserModel", "Datos del usuario antes del registro: " + user.toString());
 
         Call<RegisterUserData> call = apiService.register(user);
 
@@ -28,18 +29,27 @@ public class RegisterUserModel implements Register_Contract.model {
             public void onResponse(Call<RegisterUserData> call, Response<RegisterUserData> response) {
                 if (response.isSuccessful()) {
                     RegisterUserData myData = response.body();
+
+                    // Verifica que la respuesta y el campo `success` existan
                     if (myData != null && myData.isSuccess()) {
                         Usuario registeredUser = myData.getUsuario() != null ? myData.getUsuario() : user;
                         onRegisterUserListener.onFinished(registeredUser);
-                        Log.d("RegisterUserModel", "Register successful for user: " + registeredUser.getEmail());
+                        Log.d("RegisterUserModel", "Registro exitoso para el usuario: " + registeredUser.getEmail());
                     } else {
-                        String errorMessage = myData != null ? myData.getMessage() : "Error desconocido";
+                        // En caso de que el registro falle en el servidor, captura el mensaje de error
+                        String errorMessage = myData != null ? myData.getMessage() : "Error desconocido en la respuesta";
                         onRegisterUserListener.onFailure(errorMessage);
-                        Log.e("RegisterUserModel", "Register failed: " + errorMessage);
+                        Log.e("RegisterUserModel", "Falló el registro: " + errorMessage);
                     }
                 } else {
-                    onRegisterUserListener.onFailure("Error en el registro. Código: " + response.code());
-                    Log.e("RegisterUserModel", "Register failed with response code: " + response.code());
+                    // En caso de respuesta no exitosa, captura el mensaje detallado de error
+                    try {
+                        String errorResponse = response.errorBody() != null ? response.errorBody().string() : "Respuesta de error desconocida";
+                        Log.e("RegisterUserModel", "Error en el registro. Código: " + response.code() + ", Detalle: " + errorResponse);
+                        onRegisterUserListener.onFailure("Error en el registro. Código: " + response.code() + ", Detalle: " + errorResponse);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
