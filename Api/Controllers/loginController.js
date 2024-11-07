@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
       usuario: {
         id: user.id,
         email: user.email,
-        // No incluimos la contraseña aquí por seguridad
+        rol: user.rol
       }
     });
   } catch (err) {

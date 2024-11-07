@@ -27,6 +27,7 @@
         </activity>
 
         <activity android:name=".login_users.view.LoginUserView"></activity>
+        <activity android:name=".register_users.view.RegisterUserView"></activity>
 
     </application>
 
