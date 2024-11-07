@@ -10,7 +10,7 @@ exports.login = async (req, res) => {
     const result = await Login.findByEmail(email);
     if (result.rows.length === 0) {
       console.log('Inicio de sesión fallido: Usuario no encontrado');
-      return res.status(401).json({ message: 'Credenciales inválidas' });
+      return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
     }
 
     const user = result.rows[0];
@@ -18,14 +18,22 @@ exports.login = async (req, res) => {
 
     if (!isPasswordValid) {
       console.log('Inicio de sesión fallido: Contraseña incorrecta');
-      return res.status(401).json({ message: 'Credenciales inválidas' });
+      return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
     }
 
     console.log('Inicio de sesión exitoso:', { email });
 
-    res.json({ success: true, message: "Inicio de sesión exitoso" });
+    res.json({ 
+      success: true, 
+      message: "Inicio de sesión exitoso",
+      usuario: {
+        id: user.id,
+        email: user.email,
+        // No incluimos la contraseña aquí por seguridad
+      }
+    });
   } catch (err) {
     console.error('Error en el inicio de sesión:', err);
-    res.status(500).json({ message: 'Error en el inicio de sesión', error: err.message });
+    res.status(500).json({ success: false, message: 'Error en el inicio de sesión', error: err.message });
   }
 };

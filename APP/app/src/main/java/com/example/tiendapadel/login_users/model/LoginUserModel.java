@@ -1,6 +1,5 @@
 package com.example.tiendapadel.login_users.model;
 
-
 import android.util.Log;
 
 import com.example.tiendapadel.beans.Usuario;
@@ -14,7 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginUserModel implements Login_Contract.model {
-    private static final String base_url = "http://172.29.240.1:3000/";
+    private static final String base_url = "http://192.168.104.77:3000/";
 
     @Override
     public void loginUserAPI(Usuario user, OnLoginUserListener onLoginUserListener) {
@@ -22,26 +21,23 @@ public class LoginUserModel implements Login_Contract.model {
 
         Log.d("LoginUserModel", "Attempting login with email: " + user.getEmail());
 
-        Usuario userL = new Usuario();
-        userL.setEmail(user.getEmail());
-        userL.setContraseña(user.getContraseña());
-
-        Call<LoginUserData> call = apiService.login(userL);
+        Call<LoginUserData> call = apiService.login(user);
 
         call.enqueue(new Callback<LoginUserData>() {
             @Override
             public void onResponse(Call<LoginUserData> call, Response<LoginUserData> response) {
                 if (response.isSuccessful()) {
                     LoginUserData myData = response.body();
-                    if (myData != null && myData.getUsuario() != null) {
-                        onLoginUserListener.onFinished(userL);
-                        Log.d("LoginUserModel", "Login successful for user: " + userL.getEmail());
+                    if (myData != null && myData.isSuccess()) {
+                        Usuario loggedInUser = myData.getUsuario() != null ? myData.getUsuario() : user;
+                        onLoginUserListener.onFinished(loggedInUser);
+                        Log.d("LoginUserModel", "Login successful for user: " + loggedInUser.getEmail());
                     } else {
-                        onLoginUserListener.onFailure("Usuario no encontrado o datos inválidos.");
-                        Log.e("LoginUserModel", "Login failed: No se ha encontrado el usuario.");
+                        String errorMessage = myData != null ? myData.getMessage() : "Error desconocido";
+                        onLoginUserListener.onFailure(errorMessage);
+                        Log.e("LoginUserModel", "Login failed: " + errorMessage);
                     }
                 } else {
-                    // Manejar otros códigos de error HTTP
                     onLoginUserListener.onFailure("Error en la autenticación. Código: " + response.code());
                     Log.e("LoginUserModel", "Login failed with response code: " + response.code());
                 }
