@@ -2,8 +2,10 @@ package com.example.tiendapadel.register_users.view;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +19,7 @@ public class RegisterUserView extends AppCompatActivity implements Register_Cont
     EditText nombre;
     EditText email;
     EditText contraseña;
-    EditText rol;
+    Spinner spinnerRol;
     Button Register;
     private RegisterUserPresenter presenter;
 
@@ -33,16 +35,23 @@ public class RegisterUserView extends AppCompatActivity implements Register_Cont
         nombre = findViewById(R.id.nombreRegister);
         email = findViewById(R.id.emailRegister);
         contraseña = findViewById(R.id.contraseñaRegister);
-        rol = findViewById(R.id.rol);
+        spinnerRol = findViewById(R.id.spinnerRol);
         Register = findViewById(R.id.registerBtn);
+
+        // Configurar el Spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.roles_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRol.setAdapter(adapter);
+
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String nombreStr = nombre.getText().toString().trim();
                 String emailStr = email.getText().toString().trim();
                 String contraseñaStr = contraseña.getText().toString().trim();
-                String rolStr = rol.getText().toString().trim();
-                if (!nombreStr.isEmpty() && !emailStr.isEmpty() && !contraseñaStr.isEmpty() && !rolStr.isEmpty()) {
+                String rolStr = spinnerRol.getSelectedItem().toString();
+                if (!nombreStr.isEmpty() && !emailStr.isEmpty() && !contraseñaStr.isEmpty()) {
                     Usuario user = new Usuario(0, nombreStr, emailStr, contraseñaStr, rolStr);
                     presenter.registerAction(user);
                 } else {

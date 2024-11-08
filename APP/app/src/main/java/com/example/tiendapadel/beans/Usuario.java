@@ -18,6 +18,7 @@ public class Usuario {
     }
 
     // Getters y setters
+
     public int getId() {
         return id;
     }
@@ -64,7 +65,7 @@ public class Usuario {
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", email='" + email + '\'' +
-                ", contraseña='" + contraseña + '\'' +
+                ", contraseña='[PROTECTED]'" +
                 ", rol='" + rol + '\'' +
                 '}';
     }

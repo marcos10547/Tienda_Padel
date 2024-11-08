@@ -13,7 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginUserModel implements Login_Contract.model {
-    private static final String base_url = "http://172.29.80.1:3000/";
+    private static final String base_url = "http://192.168.104.77:3000/";
 
     @Override
     public void loginUserAPI(Usuario user, OnLoginUserListener onLoginUserListener) {

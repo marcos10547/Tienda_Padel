@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TiendaPadel</string>
+    <string-array name="roles_array">
+        <item>Cliente</item>
+        <item>Vendedor</item>
+    </string-array>
 </resources>

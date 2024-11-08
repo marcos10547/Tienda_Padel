@@ -7,51 +7,70 @@
     tools:context=".register_users.view.RegisterUserView"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="#F5F5F5"> <!-- Fondo claro para contraste -->
 
+    <!-- Título principal -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registra una nueva cuenta"
-        android:textSize="20sp"
-        android:layout_marginBottom="24dp"/>
+        android:textSize="22sp"
+        android:textColor="#333333"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="32dp"/>
 
+    <!-- Campo Nombre -->
     <EditText
         android:id="@+id/nombreRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="Nombre"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
         android:layout_marginBottom="16dp"/>
 
+    <!-- Campo Email -->
     <EditText
         android:id="@+id/emailRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:hint="Email"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
         android:layout_marginBottom="16dp"/>
 
+    <!-- Campo Contraseña -->
     <EditText
         android:id="@+id/contraseñaRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:hint="Contraseña"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
         android:layout_marginBottom="16dp"/>
 
-    <EditText
-        android:id="@+id/rol"
+    <!-- Campo Rol -->
+    <Spinner
+        android:id="@+id/spinnerRol"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="Rol (Cliente/Vendedor)"
-        android:layout_marginBottom="24dp"/>
+        android:minHeight="48dp" />
 
+    <!-- Botón de Registro -->
     <Button
         android:id="@+id/registerBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registrarse"/>
+        android:text="Registrarse"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-medium"
+        android:paddingVertical="12dp"
+        android:layout_marginTop="16dp"
+        android:elevation="4dp" />
 
 </LinearLayout>
